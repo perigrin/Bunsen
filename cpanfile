@@ -10,6 +10,8 @@ requires 'Plack::Middleware::MethodOverride';
 requires 'Plack::Middleware::Session';
 requires 'Template';
 requires 'XML::LibXML';
+requires 'Pithub';
+requires 'DateTime::Format::ISO8601';
 
 on 'test' => sub {
     requires => 'aliased';
