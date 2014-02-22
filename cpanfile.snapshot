@@ -710,6 +710,14 @@ DISTRIBUTIONS
       Task::Weaken 0
       Tie::ToObject 0.01
       namespace::clean 0.19
+  DateTime-Tiny-1.04
+    pathname: A/AD/ADAMK/DateTime-Tiny-1.04.tar.gz
+    provides:
+      DateTime::Tiny 1.04
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0.47
+      perl 5.004
   Devel-Caller-2.06
     pathname: R/RC/RCLAMP/Devel-Caller-2.06.tar.gz
     provides:
