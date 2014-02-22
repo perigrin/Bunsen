@@ -1,6 +1,6 @@
 package Bunsen::Model::Todo;
 use Moose;
-use DateTime::Tiny;
+use DateTime::Moonpig;
 use namespace::autoclean;
 
 has description => (
@@ -22,20 +22,31 @@ has [qw(importance difficulty)] => (
 );
 
 has created_at => (
-    isa     => 'DateTime::Tiny',
+    isa     => 'DateTime::Moonpig',
     is      => 'ro',
-    default => sub { DateTime::Tiny->now },
+    default => sub { DateTime::Moonpig->new(time) },
 );
 
+sub age_in_days {
+   my $self = shift;
+   my $delta =  DateTime::Moonpig->new(time) - $self->created_at;
+   $delta / (60 * 60 * 24);
+}
+
+sub age_in_weeks { 
+    my $self = shift;
+    return $self->age_in_days / 7;
+}
+
 has completed_at => (
-    isa       => 'DateTime::Tiny',
+    isa       => 'DateTime::Moonpig',
     is        => 'ro',
     predicate => 'is_complete',
     clearer   => 'uncomplete',
     writer    => '_completed_at',
 );
 
-sub complete { shift->_completed_at(DateTime::Tiny->now); }
+sub complete { shift->_completed_at(DateTime::Moonpig->new(time)); }
 
 sub priority { }
 

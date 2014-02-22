@@ -1,5 +1,5 @@
-requires 'AI::FuzzyInference';
-requires "DateTime::Tiny";
+requires 'AI::FuzzyEngine';
+requires "DateTime::Moonpig";
 requires 'JSON::Any';
 requires 'KiokuDB';
 requires 'KiokuDB::Backend::DBI';
