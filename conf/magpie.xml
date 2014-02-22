@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<application>
+    <assets>
+        <container name="Magpie::Resource::Kioku">
+            <service name="kioku_dir" type="block" lifecycle="Singleton">
+                <class>KiokuDB</class>
+                <requires>
+                    <class>KiokuDB::TypeMap::Entry::Set</class>
+                </requires>
+                <block><![CDATA[
+                        my $s = shift;
+                        KiokuDB->connect(
+                            $s->param('dsn'),
+                            create => 1,
+                       );
+                    }
+                ]]></block>
+                <dependencies>
+                    <dependency name="dsn" service_path="/Assets/SQLite/dsn"/>
+                </dependencies>
+            </service>
+        </container>
+        <container name="SQLite">
+            <service name="dsn" type="literal">dbi:SQLite:site.db</service>
+        </container>
+        <alias name="kioku_dir" path="/Assets/Magpie::Resource::Kioku/kioku_dir" />
+    </assets>
+    <accept_matrix>
+        <variant name="html" type="text/html"/>
+        <variant name="json" type="application/json"/>
+    </accept_matrix>
+    <pipeline>
+        <match type="env">
+            <rules>
+                <rule key="CONTENT_TYPE" value="application/json" />
+            </rules>
+            <add class="Magpie::Transformer::Input::JSON" />
+        </match>
+
+        <match type="regexp" rule="^/todo/?">
+            <add class="Piebald::Resource::Collection">
+                <parameters>
+                    <wrapper_class>Bunsen::Model::Todo</wrapper_class>
+                </parameters>
+            </add>
+        </match>
+
+        <match type="accept" variant_name="json">
+            <add class="Magpie::Transformer::JSON"/>
+        </match>
+        <match type="accept" variant_name="html">
+            <add class="Piebald::Transformer::Output::TT2">
+                <parameters>
+                    <template_path>root/src</template_path>
+                </parameters>
+            </add>
+        </match>
+    </pipeline>
+</application>
