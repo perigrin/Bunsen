@@ -46,7 +46,7 @@
         </match>
 
         <match type="accept" variant_name="json">
-            <add class="Magpie::Transformer::JSON"/>
+            <add class="Piebald::Transformer::Output::JSON"/>
         </match>
         <match type="accept" variant_name="html">
             <add class="Piebald::Transformer::Output::TT2">
